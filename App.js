@@ -5,9 +5,8 @@
  * @format
  * @flow strict-local
  */
-
-import React from 'react';
 import 'react-native-gesture-handler';
+import React from 'react';
 import {NavigationContainer} from "@react-navigation/native";
 import {
   TouchableOpacity,
@@ -23,9 +22,7 @@ import HomeScreen from "./screens/HomeScreen";
 
 const App = () => {
   return (
-   <NavigationContainer>
      <DrawerNavigation />
-   </NavigationContainer>
   );
 };
 
