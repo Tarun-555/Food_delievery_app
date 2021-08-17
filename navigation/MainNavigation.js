@@ -17,19 +17,9 @@ const CustomDrawer = (props) => {
 
 	return (
 		<SafeAreaView style={{ flex: 1 }}>
-			<DrawerContentScrollView {...props} >
-				<View style={{  backgroundColor:Colors.Primary, alignItems:"center",marginTop:-5 }}>
-					<View
-						style={{
-							height: 120,
-							width: 120,
-							borderColor: "black",
-							borderWidth: 1,
-							borderRadius: 60,
-							marginVertical: 10,
-							overflow: "hidden"
-						}}
-					>
+			<DrawerContentScrollView {...props}>
+				<View style={Styles.DrawerHeader}>
+					<View style={Styles.ProfileImg}>
 						<Image
 							source={{
 								uri: "https://m.cricbuzz.com/a/img/v1/192x192/i1/c170661/virat-kohli.jpg"
@@ -38,9 +28,11 @@ const CustomDrawer = (props) => {
 							style={{ width: "100%", height: "100%" }}
 						/>
 					</View>
-					<Text style={{color:"#fff",fontWeight:"bold",marginVertical:5, fontSize:20}}>Virat</Text>
+					<Text style={Styles.ProfileText}>
+						Virat
+					</Text>
 				</View>
-				<View style={{ borderWidth: StyleSheet.hairlineWidth, borderColor: "#ccc", marginBottom: 10 }}></View>
+				<View style={Styles.Divider}></View>
 				{state.routes.map((route) => {
 					let listItemIcon;
 					switch (route.name) {
@@ -66,20 +58,28 @@ const CustomDrawer = (props) => {
 							focused={state.routes.findIndex((e) => e.name === route.name) === state.index}
 							activeTintColor={Colors.Primary}
 							onPress={() => navigation.navigate(route.name)}
-							pressColor={"#3FA69A"}
+							pressColor={Colors.StatusbarColor}
 						/>
 					);
 				})}
-				<View style={{marginTop:"100%",marginHorizontal:20, borderTopWidth:1,borderTopColor:"#ccc",paddingTop:5}}>
-					<TouchableOpacity style={{flexDirection:"row",paddingVertical:10}}>
+				<View
+					style={{
+						marginTop: "100%",
+						marginHorizontal: 20,
+						borderTopWidth: 1,
+						borderTopColor: "#ccc",
+						paddingTop: 5
+					}}
+				>
+					<TouchableOpacity style={{ flexDirection: "row", paddingVertical: 10 }}>
 						<Icon name="sign-out-alt" size={20} />
-						<Text style={{marginHorizontal:20}}>Logout</Text>
+						<Text style={{ marginHorizontal: 20 }}>Logout</Text>
 					</TouchableOpacity>
 				</View>
-				<View style={{marginHorizontal:20}}>
-					<TouchableOpacity style={{flexDirection:"row",paddingVertical:10}}>
+				<View style={{ marginHorizontal: 20 }}>
+					<TouchableOpacity style={{ flexDirection: "row", paddingVertical: 10 }}>
 						<Icon name="cog" size={20} />
-						<Text style={{marginHorizontal:20}}>Settings</Text>
+						<Text style={{ marginHorizontal: 20 }}>Settings</Text>
 					</TouchableOpacity>
 				</View>
 			</DrawerContentScrollView>
@@ -104,7 +104,7 @@ const DrawerNavigation = ({ navigation }) => {
 		<Drawer.Navigator
 			screenOptions={{
 				headerStyle: { backgroundColor: Colors.Primary },
-				headerTintColor: "white",
+				headerTintColor: Colors.TextWhite,
 				headerTitleAlign: "center",
 				headerTitleStyle: { fontWeight: "bold", fontFamily: "Arial" },
 				headerTitleAllowFontScaling: true,
@@ -149,12 +149,27 @@ const StackNavigation = ({ navigation }) => {
 const MainNavigation = () => {
 	return (
 		<>
-		<StatusBar backgroundColor={"#3FA69A"} />
-		<NavigationContainer>
-			<StackNavigation />
-		</NavigationContainer>
+			<StatusBar backgroundColor={Colors.StatusbarColor} />
+			<NavigationContainer>
+				<StackNavigation />
+			</NavigationContainer>
 		</>
 	);
 };
+
+const Styles = StyleSheet.create({
+	DrawerHeader: { backgroundColor: Colors.Primary, alignItems: "center", marginTop: -5 },
+	ProfileImg: {
+		height: 120,
+		width: 120,
+		borderColor: "black",
+		borderWidth: 1,
+		borderRadius: 60,
+		marginVertical: 10,
+		overflow: "hidden"
+	},
+	ProfileText:{ color: Colors.TextWhite, fontWeight: "bold", marginVertical: 5, fontSize: 20 },
+	Divider:{ borderWidth: StyleSheet.hairlineWidth, borderColor: "#ccc", marginBottom: 10 }
+});
 
 export default MainNavigation;
