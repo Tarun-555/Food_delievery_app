@@ -7,6 +7,7 @@ import { Colors } from "../constants";
 import StackNavigators from "./StackNavigators";
 import Icon from "react-native-vector-icons/FontAwesome5";
 import Favourites from "../screens/Favourites";
+import AuthScreen from "../screens/AuthScreen";
 
 const Drawer = createDrawerNavigator();
 const Stack = createNativeStackNavigator();
@@ -150,9 +151,10 @@ const MainNavigation = () => {
 	return (
 		<>
 			<StatusBar backgroundColor={Colors.StatusbarColor} />
-			<NavigationContainer>
+			{/* <NavigationContainer>
 				<StackNavigation />
-			</NavigationContainer>
+			</NavigationContainer> */}
+			<AuthScreen />
 		</>
 	);
 };

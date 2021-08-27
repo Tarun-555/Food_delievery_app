@@ -1,12 +1,12 @@
 import React from "react";
-import { View, Image, Text, StyleSheet } from "react-native"
+import { View, Image, Text, TouchableOpacity, StyleSheet } from "react-native"
 import Icon from "react-native-vector-icons/FontAwesome"
 import { Colors } from "../constants";
 
 const RestaurantCard = (props) => {
     const { ImageUrl, Name, Rating} = props
     return(
-        <View style={Styles.cardContainer}>
+        <TouchableOpacity style={Styles.cardContainer} activeOpacity={0.6}>
            <Image source={{uri:ImageUrl}} style={{height:160,width:"100%"}}/>
            <View style={{flexDirection:"row",justifyContent:"space-between",padding:10, backgroundColor:Colors.Secondary}}>
                <Text style={{color:Colors.TextWhite,fontStyle:"italic",fontFamily:""}}>{Name}</Text>
@@ -15,7 +15,7 @@ const RestaurantCard = (props) => {
                <Text style={{color:Colors.TextWhite}}>{`${Rating}/5`}</Text>
                </View>
             </View>
-        </View>
+        </TouchableOpacity>
     )
 }
 

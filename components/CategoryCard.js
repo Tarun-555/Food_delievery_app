@@ -1,11 +1,11 @@
 import React from "react";
-import { View, Text, Image, StyleSheet } from "react-native";
+import { View, Text, Image, StyleSheet, TouchableOpacity } from "react-native";
 import { Colors } from "../constants";
 
 const CategoryCard = (props) => {
 	const { ImageUrl, Title } = props;
 	return (
-		<View style={Styles.CardContainer}>
+		<TouchableOpacity style={Styles.CardContainer} activeOpacity={0.6}>
 			<Image
 				source={{
 					uri: ImageUrl
@@ -14,7 +14,7 @@ const CategoryCard = (props) => {
 				resizeMode="cover"
 			/>
 			<Text style={Styles.CardTitle}>{Title}</Text>
-		</View>
+		</TouchableOpacity>
 	);
 };
 
