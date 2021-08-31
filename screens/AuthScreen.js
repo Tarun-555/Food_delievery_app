@@ -1,9 +1,9 @@
 import React, { useState } from "react";
-import { View, Text, Image, TextInput, KeyboardAvoidingView, TouchableOpacity } from "react-native";
+import { View, Text, Image, TextInput, KeyboardAvoidingView, TouchableOpacity, Alert } from "react-native";
 import { Colors } from "../constants";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import Icon from "react-native-vector-icons/MaterialIcons";
-import auth from '@react-native-firebase/auth';
+import auth from "@react-native-firebase/auth";
 
 const AuthScreen = () => {
 	const [newUser, setNewUser] = useState(false);
@@ -12,9 +12,13 @@ const AuthScreen = () => {
 	const [email, setEmail] = useState("");
 	const [password, setpassword] = useState();
 	const [confirmPassword, setConfirmPassword] = useState();
+	const [error, setError] = useState();
 
 	const switchHandler = () => {
 		setNewUser(!newUser);
+		setEmail("");
+		setpassword("");
+		setConfirmPassword("");
 	};
 
 	const passwordVisibilityHandler = () => {
@@ -22,7 +26,46 @@ const AuthScreen = () => {
 	};
 
 	const submitHandler = () => {
-		console.log(email, password, confirmPassword);
+		if (newUser) {
+			//signup logic
+			if (password !== confirmPassword) {
+				setError("Passwords didn't match!");
+				setTimeout(() => {
+					setError();
+				}, 2000);
+				return;
+			}
+			if (email != "" && password != "") {
+				auth()
+					.createUserWithEmailAndPassword(email, password)
+					.then(() => {
+						console.log("User account created & signed in!");
+					})
+					.catch((error) => {
+						if (error.code === "auth/email-already-in-use") {
+							console.log("That email address is already in use!");
+						}
+
+						if (error.code === "auth/invalid-email") {
+							console.log("That email address is invalid!");
+						}
+
+						console.error(error);
+					});
+			}
+		} else {
+			//signin logic
+			auth()
+				.signInWithEmailAndPassword(email, password)
+				.then(() => console.log("logged in successfully"))
+				.catch((err) => {
+					console.log(err);
+					setError("Invalid Credentials");
+					setTimeout(() => {
+						setError();
+					}, 2000);
+				});
+		}
 	};
 
 	return (
@@ -50,6 +93,7 @@ const AuthScreen = () => {
 						placeholderTextColor="#cccc"
 						style={{ borderWidth: 1, borderColor: "#cccc", borderRadius: 10, paddingHorizontal: 10 }}
 						onChangeText={(text) => setEmail(text)}
+						value={email}
 					/>
 				</View>
 				<View style={{ paddingHorizontal: 25, marginTop: 10 }}>
@@ -66,6 +110,7 @@ const AuthScreen = () => {
 					<TextInput
 						placeholder="Enter your password"
 						placeholderTextColor="#cccc"
+						value={password}
 						style={{ borderWidth: 1, borderColor: "#cccc", borderRadius: 10, paddingHorizontal: 10 }}
 						onChangeText={(text) => setpassword(text)}
 						secureTextEntry={visibility ? true : false}
@@ -92,6 +137,7 @@ const AuthScreen = () => {
 						<TextInput
 							placeholder="Confirm your password"
 							placeholderTextColor="#cccc"
+							value={confirmPassword}
 							style={{ borderWidth: 1, borderColor: "#cccc", borderRadius: 10, paddingHorizontal: 10 }}
 							onChangeText={(text) => setConfirmPassword(text)}
 							secureTextEntry={visibility ? true : false}
@@ -104,6 +150,7 @@ const AuthScreen = () => {
 						</TouchableOpacity>
 					</View>
 				) : null}
+				{error ? <Text style={{ color: "red", marginLeft: 30 }}>{error}</Text> : null}
 			</View>
 			<TouchableOpacity
 				style={{

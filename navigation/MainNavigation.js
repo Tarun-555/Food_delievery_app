@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { View, Text, Image, TouchableOpacity, StyleSheet, SafeAreaView, StatusBar } from "react-native";
 import { NavigationContainer, DrawerActions } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
@@ -8,30 +8,56 @@ import StackNavigators from "./StackNavigators";
 import Icon from "react-native-vector-icons/FontAwesome5";
 import Favourites from "../screens/Favourites";
 import AuthScreen from "../screens/AuthScreen";
+import auth from "@react-native-firebase/auth";
 
 const Drawer = createDrawerNavigator();
 const Stack = createNativeStackNavigator();
 
 const CustomDrawer = (props) => {
 	const { state, descriptors, navigation } = props;
+	const [user, setUser] = useState();
+	const [userPic, setUserpic] = useState("");
 	// console.log(state, "---------",descriptors,"--------",navigation)
+
+	useEffect(() => {
+		auth().onAuthStateChanged((user) => {
+			if (user.displayName != "") setUser(user.displayName);
+			else setUser(user.email);
+
+			if (user.photoURL != "") setUserpic(user.photoURL);
+		});
+	});
+
+	const logoutHandler = () => {
+		auth()
+			.signOut()
+			.then(() => console.log("logged out successfully"));
+	};
 
 	return (
 		<SafeAreaView style={{ flex: 1 }}>
 			<DrawerContentScrollView {...props}>
 				<View style={Styles.DrawerHeader}>
 					<View style={Styles.ProfileImg}>
-						<Image
-							source={{
-								uri: "https://m.cricbuzz.com/a/img/v1/192x192/i1/c170661/virat-kohli.jpg"
-							}}
-							resizeMode="cover"
-							style={{ width: "100%", height: "100%" }}
-						/>
+						{userPic ? (
+							<Image
+								source={{
+									uri: userPic
+								}}
+								resizeMode="cover"
+								style={{ width: "100%", height: "100%" }}
+							/>
+						) : (
+							<Image
+								source={{
+									uri: "https://m.cricbuzz.com/a/img/v1/192x192/i1/c170661/virat-kohli.jpg"
+								}}
+								resizeMode="cover"
+								style={{ width: "100%", height: "100%" }}
+							/>
+						)}
 					</View>
-					<Text style={Styles.ProfileText}>
-						Virat
-					</Text>
+					<Text style={Styles.ProfileText}>{user}</Text>
 				</View>
 				<View style={Styles.Divider}></View>
 				{state.routes.map((route) => {
@@ -72,7 +98,7 @@ const CustomDrawer = (props) => {
 						paddingTop: 5
 					}}
 				>
-					<TouchableOpacity style={{ flexDirection: "row", paddingVertical: 10 }}>
+					<TouchableOpacity style={{ flexDirection: "row", paddingVertical: 10 }} onPress={logoutHandler}>
 						<Icon name="sign-out-alt" size={20} />
 						<Text style={{ marginHorizontal: 20 }}>Logout</Text>
 					</TouchableOpacity>
@@ -148,13 +174,26 @@ const StackNavigation = ({ navigation }) => {
 };
 
 const MainNavigation = () => {
+	const [user, setUser] = useState();
+	function onAuthStateChanged(user) {
+		setUser(user);
+	}
+
+	useEffect(() => {
+		const subscriber = auth().onAuthStateChanged(onAuthStateChanged);
+		return subscriber; // unsubscribe on unmount
+	});
+
 	return (
 		<>
 			<StatusBar backgroundColor={Colors.StatusbarColor} />
-			{/* <NavigationContainer>
-				<StackNavigation />
-			</NavigationContainer> */}
-			<AuthScreen />
+			{user ? (
+				<NavigationContainer>
+					<StackNavigation />
+				</NavigationContainer>
+			) : (
+				<AuthScreen />
+			)}
 		</>
 	);
 };
@@ -167,11 +206,21 @@ const Styles = StyleSheet.create({
 		borderColor: "black",
 		borderWidth: 1,
 		borderRadius: 60,
-		marginVertical: 10,
+		marginTop: 10,
 		overflow: "hidden"
 	},
-	ProfileText:{ color: Colors.TextWhite, fontWeight: "bold", marginVertical: 5, fontSize: 20 },
-	Divider:{ borderWidth: StyleSheet.hairlineWidth, borderColor: "#ccc", marginBottom: 10 }
+	ProfileText: {
+		color: Colors.TextWhite,
+		fontWeight: "bold",
+		textAlign:"center",
+		marginVertical: 10,
+		fontSize: 20
+	},
+	Divider: {
+		borderWidth: StyleSheet.hairlineWidth,
+		borderColor: "#ccc",
+		marginBottom: 10
+	}
 });
 
 export default MainNavigation;

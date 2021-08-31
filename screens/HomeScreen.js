@@ -13,7 +13,7 @@ const HomeScreen = ({ navigation }) => {
 		<View style={{ flex: 1 }}>
 			{/* <Button onPress={()=>{}} title="map"/> */}
 			{/* search food by name*/}
-			<View style={{ backgroundColor: "#ccc" }}>
+			<View>
 				<TextInput
 					style={{
 						borderColor: Colors.Primary,
@@ -32,7 +32,7 @@ const HomeScreen = ({ navigation }) => {
 				</View>
 			</View>
 			{/* categories list */}
-			<View style={{ backgroundColor: Colors.greyBackground, height: 150 }}>
+			<View style={{ height: 150 }}>
 				<ScrollView horizontal>
 					{Categories.map((category) => {
 						return <CategoryCard ImageUrl={category.imageUrl} Title={category.title} />;
@@ -45,7 +45,7 @@ const HomeScreen = ({ navigation }) => {
 				<Text style={{ color: Colors.TextWhite, fontSize: 20, fontWeight: "bold" }}>Restaurants</Text>
 			</View>
 			{/* restaurant list */}
-			<ScrollView style={{ backgroundColor: Colors.greyBackground }}>
+			<ScrollView>
 				{Restaurants.map((restaurant) => {
 					return (
 						<RestaurantCard ImageUrl={restaurant.image} Name={restaurant.name} Rating={restaurant.rating} />
