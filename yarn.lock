@@ -1223,7 +1223,7 @@
   "resolved" "https://registry.npmjs.org/@react-native-community/eslint-plugin/-/eslint-plugin-1.1.0.tgz"
   "version" "1.1.0"
 
-"@react-native-firebase/app@^12.7.3", "@react-native-firebase/app@12.7.3":
+"@react-native-firebase/app@^12.7.3", "@react-native-firebase/app@12.7.3", "@react-native-firebase/app@12.7.5":
   "integrity" "sha512-dp4lbLM0xJsR8mT5PHrCGSoCMCZ0KrXFIt69pAsjaQ22AEr2ETeBrCxbwHQjXylfPrg1PudqADzMIifS44Qq9g=="
   "resolved" "https://registry.npmjs.org/@react-native-firebase/app/-/app-12.7.3.tgz"
   "version" "12.7.3"
@@ -1236,6 +1236,11 @@
   "integrity" "sha512-BksvXxIJLxxnAY0v476XxIZA9F46p+wRCX5VMpLBnfXN7BThpT1nl0aqTs1Da4pIEmYTOuGcV+afbs46uklQ4A=="
   "resolved" "https://registry.npmjs.org/@react-native-firebase/auth/-/auth-12.7.3.tgz"
   "version" "12.7.3"
+
+"@react-native-firebase/firestore@^12.7.5":
+  "integrity" "sha512-h/GyvPhGe60hXgE8ZNzDu7iPhqRMUbzZd4xEKP7gtr/9nVwn1orek2t5W6GTbJuJdPLrUlDX6l2g5rG+6ikpgA=="
+  "resolved" "https://registry.npmjs.org/@react-native-firebase/firestore/-/firestore-12.7.5.tgz"
+  "version" "12.7.5"
 
 "@react-native/assets@1.0.0":
   "integrity" "sha512-KrwSpS1tKI70wuKl68DwJZYEvXktDHdZMG0k2AXD/rJVSlB23/X2CB2cutVR0HwNMJIal9HOUOBB2rVfa6UGtQ=="

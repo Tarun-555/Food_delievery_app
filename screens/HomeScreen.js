@@ -1,13 +1,42 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { View, Text, StyleSheet, Button, ScrollView, TextInput } from "react-native";
 import CategoryCard from "../components/CategoryCard";
 import RestaurantCard from "../components/RestaurantCard";
 import { Colors } from "../constants";
 import { Categories, Restaurants } from "../data/data";
 import Icon from "react-native-vector-icons/FontAwesome5";
+import firestore from "@react-native-firebase/firestore";
 
 const HomeScreen = ({ navigation }) => {
-// 	// console.log("home", navigation.navigate);
+	const [Restaurants, setRestaurants] = useState([]);
+	const [Categories,setCategories] = useState([]);
+
+	useEffect(() => {
+
+		//get restaurants data from firestore
+		firestore()
+			.collection("Restaurants")
+			.get()
+			.then((querySnapshot) => {
+				// console.log("Total users: ", querySnapshot.size, querySnapshot.docs);
+				setRestaurants(querySnapshot.docs);
+				querySnapshot.forEach((documentSnapshot) => {
+					//   console.log('User ID: ', documentSnapshot.id, documentSnapshot.data());
+				});
+			});
+
+		//get Categories data from firestore
+			firestore()
+			.collection("Categories")
+			.get()
+			.then((querySnapshot) => {
+				// console.log("Total users: ", querySnapshot.size, querySnapshot.docs);
+				setCategories(querySnapshot.docs);
+				querySnapshot.forEach((documentSnapshot) => {
+					//   console.log('User ID: ', documentSnapshot.id, documentSnapshot.data());
+				});
+			});
+	}, []);
 
 	return (
 		<View style={{ flex: 1 }}>
@@ -33,9 +62,9 @@ const HomeScreen = ({ navigation }) => {
 			</View>
 			{/* categories list */}
 			<View style={{ height: 150 }}>
-				<ScrollView horizontal>
+				<ScrollView horizontal showsHorizontalScrollIndicator={false}>
 					{Categories.map((category) => {
-						return <CategoryCard ImageUrl={category.imageUrl} Title={category.title} />;
+						return <CategoryCard ImageUrl={category._data.Category_img} Title={category._data.name} />;
 					})}
 				</ScrollView>
 			</View>
@@ -46,11 +75,19 @@ const HomeScreen = ({ navigation }) => {
 			</View>
 			{/* restaurant list */}
 			<ScrollView>
-				{Restaurants.map((restaurant) => {
-					return (
-						<RestaurantCard ImageUrl={restaurant.image} Name={restaurant.name} Rating={restaurant.rating} />
-					);
-				})}
+				{Restaurants &&
+					Restaurants.map((restaurant) => {
+						// console.log(restaurant._data.menu, "res._data");
+						return (
+							<RestaurantCard
+								ImageUrl={restaurant._data.restaurant_image}
+								Name={restaurant._data.name}
+								Rating={restaurant._data.rating}
+								Menu={restaurant._data.menu}
+								navigation={navigation}
+							/>
+						);
+					})}
 			</ScrollView>
 			{/* <Button title="Click to Navigate" onPress={() => navigation.push("favourites")} /> */}
 		</View>

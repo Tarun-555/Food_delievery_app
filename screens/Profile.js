@@ -23,7 +23,8 @@ const Profile = () => {
 	}, [auth]);
 
 	const saveHandler = () => {
-		auth().currentUser.updateProfile({
+		console.log(username)
+		auth()?.currentUser?.updateProfile({
 			displayName: username
 		});
 	};
@@ -45,14 +46,15 @@ const Profile = () => {
 
 		ImagePicker.launchImageLibrary(options, (res) => {
 			// console.log('Response = ', res.assets[0].uri);
-			if (res?.assets[0]?.uri) auth().currentUser.updateProfile({ photoURL: res.assets[0].uri });
-
 			if (res.didCancel) {
 				console.log("User cancelled image picker");
 			} else if (res.error) {
 				console.log("ImagePicker Error: ", res.error);
 			} else {
-				if (res?.assets[0]?.uri) setProfileUrl(res.assets[0].uri);
+				if (res?.assets[0]?.uri){
+				 auth().currentUser.updateProfile({ photoURL: res.assets[0].uri });
+				 setProfileUrl(res.assets[0].uri);
+				}
 			}
 		});
 	};
