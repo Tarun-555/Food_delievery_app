@@ -4,12 +4,18 @@ import Icon from "react-native-vector-icons/FontAwesome"
 import { Colors } from "../constants";
 
 const RestaurantCard = (props) => {
-    const { ImageUrl, Name, Rating} = props
+    const { ImageUrl, Name, Rating, Menu} = props;
+
+    const navigateToRestaurant = () => {
+        //  console.log(Menu);
+        console.log(props.navigation.push('RestaurantScreen',{name:Name,items:Menu}),"nav")
+    }
+
     return(
-        <TouchableOpacity style={Styles.cardContainer} activeOpacity={0.6}>
+        <TouchableOpacity style={Styles.cardContainer} activeOpacity={0.6} onPress={()=>navigateToRestaurant()}>
            <Image source={{uri:ImageUrl}} style={{height:160,width:"100%"}}/>
            <View style={{flexDirection:"row",justifyContent:"space-between",padding:10, backgroundColor:Colors.Secondary}}>
-               <Text style={{color:Colors.TextWhite,fontStyle:"italic",fontFamily:""}}>{Name}</Text>
+               <Text style={{color:Colors.TextWhite,fontStyle:"italic",fontFamily:"",textTransform:"capitalize"}} >{Name}</Text>
                <View style={{flexDirection:"row",width:"20%",justifyContent:"space-around"}}>
                 <Icon name={"star"} size={18} color={"#ffc300"} />
                <Text style={{color:Colors.TextWhite}}>{`${Rating}/5`}</Text>

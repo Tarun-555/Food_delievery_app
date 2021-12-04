@@ -142,7 +142,8 @@ const DrawerNavigation = ({ navigation }) => {
 			<Drawer.Screen
 				name="Home"
 				component={StackNavigators.HomeStack}
-				options={{ headerLeft: () => <MenuIcon navigation={navigation} /> }}
+				// options={{ headerLeft: () => <MenuIcon navigation={navigation} /> }}
+				options={{headerShown:false}}
 			/>
 			<Drawer.Screen
 				name="Profile"

@@ -142,12 +142,12 @@ const AuthScreen = () => {
 							onChangeText={(text) => setConfirmPassword(text)}
 							secureTextEntry={visibility ? true : false}
 						/>
-						<TouchableOpacity
+						{/* <TouchableOpacity
 							style={{ position: "absolute", right: 40, top: 45 }}
 							onPress={passwordVisibilityHandler}
 						>
 							<Icon name={visibility ? "visibility-off" : "visibility"} size={20} color={"grey"} />
-						</TouchableOpacity>
+						</TouchableOpacity> */}
 					</View>
 				) : null}
 				{error ? <Text style={{ color: "red", marginLeft: 30 }}>{error}</Text> : null}
