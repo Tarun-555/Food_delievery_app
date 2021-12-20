@@ -11,12 +11,20 @@ import { View, StyleSheet, StatusBar, SafeAreaView } from "react-native";
 import MainNavigation from "./navigation/MainNavigation";
 import { Colors } from "./constants";
 import SplashScreen from "react-native-splash-screen";
+import { Provider } from "react-redux";
+import { configureStore } from "./store/configureStore";
+
+const store = configureStore();
 
 const App = () => {
 	useEffect(() => {
 		SplashScreen.hide();
 	});
-	return <MainNavigation />;
+	return (
+		<Provider store={store}>
+			<MainNavigation />
+		</Provider>
+	);
 };
 
 const styles = StyleSheet.create({});
