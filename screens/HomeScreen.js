@@ -9,10 +9,9 @@ import firestore from "@react-native-firebase/firestore";
 
 const HomeScreen = ({ navigation }) => {
 	const [Restaurants, setRestaurants] = useState([]);
-	const [Categories,setCategories] = useState([]);
+	const [Categories, setCategories] = useState([]);
 
 	useEffect(() => {
-
 		//get restaurants data from firestore
 		firestore()
 			.collection("Restaurants")
@@ -26,7 +25,7 @@ const HomeScreen = ({ navigation }) => {
 			});
 
 		//get Categories data from firestore
-			firestore()
+		firestore()
 			.collection("Categories")
 			.get()
 			.then((querySnapshot) => {
@@ -43,19 +42,7 @@ const HomeScreen = ({ navigation }) => {
 			{/* <Button onPress={()=>{}} title="map"/> */}
 			{/* search food by name*/}
 			<View>
-				<TextInput
-					style={{
-						borderColor: Colors.Primary,
-						borderWidth: 1.5,
-						marginHorizontal: 10,
-						marginTop: 10,
-						padding: 10,
-						paddingHorizontal: 32,
-						borderRadius: 18,
-						height: 40
-					}}
-					placeholder="Search for your favourites..."
-				/>
+				<TextInput style={Styles.searchBar} placeholder="Search for your favourites..." />
 				<View style={{ position: "absolute", top: 22, left: 20 }}>
 					<Icon name="search" color="grey" size={18} />
 				</View>
@@ -68,16 +55,13 @@ const HomeScreen = ({ navigation }) => {
 					})}
 				</ScrollView>
 			</View>
-			<View
-				style={{ height: 40, backgroundColor: Colors.Primary, justifyContent: "center", paddingHorizontal: 10 }}
-			>
-				<Text style={{ color: Colors.TextWhite, fontSize: 20, fontWeight: "bold" }}>Restaurants</Text>
+			<View style={Styles.resHeaderContainer}>
+				<Text style={Styles.resHeaderText}>Restaurants</Text>
 			</View>
 			{/* restaurant list */}
 			<ScrollView>
 				{Restaurants &&
 					Restaurants.map((restaurant) => {
-						// console.log(restaurant._data.menu, "res._data");
 						return (
 							<RestaurantCard
 								ImageUrl={restaurant._data.restaurant_image}
@@ -94,6 +78,24 @@ const HomeScreen = ({ navigation }) => {
 	);
 };
 
-const Styles = StyleSheet.create({});
+const Styles = StyleSheet.create({
+	searchBar: {
+		borderColor: Colors.Primary,
+		borderWidth: 1.5,
+		marginHorizontal: 10,
+		marginTop: 10,
+		padding: 10,
+		paddingHorizontal: 32,
+		borderRadius: 18,
+		height: 40
+	},
+	resHeaderContainer: {
+		height: 40,
+		backgroundColor: Colors.Primary,
+		justifyContent: "center",
+		paddingHorizontal: 10
+	},
+	resHeaderText: { color: Colors.TextWhite, fontSize: 20, fontWeight: "bold" }
+});
 
 export default HomeScreen;
