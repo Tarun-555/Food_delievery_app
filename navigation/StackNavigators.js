@@ -13,10 +13,7 @@ const Stack = createNativeStackNavigator();
 const MenuIcon = (props) => {
 	const { navigation } = props;
 	return (
-		<TouchableOpacity
-			style={{ marginLeft: 10, marginRight: 100 }}
-			onPress={() => navigation.dispatch(DrawerActions.toggleDrawer())}
-		>
+		<TouchableOpacity style={{ marginLeft: 10, marginRight: 100 }} onPress={() => navigation.dispatch(DrawerActions.toggleDrawer())}>
 			<Image source={require("../assets/hamburgermenu.png")} style={{ height: 20, width: 25 }} />
 		</TouchableOpacity>
 	);
@@ -41,10 +38,8 @@ const HomeStack = ({ navigation }) => {
 					drawerStyle: { width: 240 },
 					headerLeft: () => <MenuIcon navigation={navigation} />,
 					headerTitle: () => (
-						<View >
-							<Text style={{ color: "white", fontWeight: "bold", fontFamily: "Arial", fontSize: 18,textAlign:"center" }}>
-								HOME
-							</Text>
+						<View>
+							<Text style={{ color: "white", fontWeight: "bold", fontFamily: "Arial", fontSize: 18, textAlign: "center" }}>HOME</Text>
 						</View>
 					)
 				}}
