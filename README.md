@@ -25,4 +25,6 @@ A demo food delievery application built using react-native.
 - I have been using Redux for state management for this project.
 
 #### SCREENSHOTS
-   ![Image1]()
+  ![Image1](./screenshots/Img-1.png)  &nbsp;&nbsp;&nbsp;
+  ![Image1](./screenshots/Img-2.png)  &nbsp;&nbsp;&nbsp;
+  ![Image1](./screenshots/Img-3.png)
