@@ -288,7 +288,15 @@ const RestaurantScreen = ({ route, navigation, ...props }) => {
 				/>
 			</SafeAreaView>
 			{props?.cart?.length > 0 && (
-				<TouchableOpacity style={{ position: "absolute", bottom: 10, width: "50%", alignSelf: "center", elevation: 2 }}>
+				<TouchableOpacity
+					style={{ position: "absolute", bottom: 10, width: "50%", alignSelf: "center", elevation: 2 }}
+					onPress={() => {
+						setTimeout(() => {
+							navigation.pop();
+						}, 1000);
+						navigation.navigate("Cart");
+					}}
+				>
 					<View
 						style={{
 							flexDirection: "row",

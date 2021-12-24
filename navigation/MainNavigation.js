@@ -78,9 +78,7 @@ const CustomDrawer = (props) => {
 					return (
 						<DrawerItem
 							key={route.key}
-							icon={({ focused }) => (
-								<Icon name={listItemIcon} size={20} color={focused ? Colors.Primary : "black"} />
-							)}
+							icon={({ focused }) => <Icon name={listItemIcon} size={20} color={focused ? Colors.Primary : "black"} />}
 							label={({ color }) => <Text style={{ color }}>{route.name}</Text>}
 							focused={state.routes.findIndex((e) => e.name === route.name) === state.index}
 							activeTintColor={Colors.Primary}
@@ -117,10 +115,7 @@ const CustomDrawer = (props) => {
 const MenuIcon = (props) => {
 	const { navigation } = props;
 	return (
-		<TouchableOpacity
-			style={{ marginLeft: 20, marginRight: 100 }}
-			onPress={() => navigation.dispatch(DrawerActions.toggleDrawer())}
-		>
+		<TouchableOpacity style={{ marginLeft: 20, marginRight: 100 }} onPress={() => navigation.dispatch(DrawerActions.toggleDrawer())}>
 			<Image source={require("../assets/hamburgermenu.png")} style={{ height: 20, width: 25 }} />
 		</TouchableOpacity>
 	);
@@ -143,18 +138,10 @@ const DrawerNavigation = ({ navigation }) => {
 				name="Home"
 				component={StackNavigators.HomeStack}
 				// options={{ headerLeft: () => <MenuIcon navigation={navigation} /> }}
-				options={{headerShown:false}}
+				options={{ headerShown: false }}
 			/>
-			<Drawer.Screen
-				name="Profile"
-				component={StackNavigators.ProfileStack}
-				options={{ headerLeft: () => <MenuIcon navigation={navigation} /> }}
-			/>
-			<Drawer.Screen
-				name="Cart"
-				component={StackNavigators.CartStack}
-				options={{ headerLeft: () => <MenuIcon navigation={navigation} /> }}
-			/>
+			<Drawer.Screen name="Profile" component={StackNavigators.ProfileStack} options={{ headerLeft: () => <MenuIcon navigation={navigation} /> }} />
+			<Drawer.Screen name="Cart" component={StackNavigators.CartStack} options={{ headerLeft: () => <MenuIcon navigation={navigation} /> }} />
 		</Drawer.Navigator>
 	);
 };
@@ -213,7 +200,7 @@ const Styles = StyleSheet.create({
 	ProfileText: {
 		color: Colors.TextWhite,
 		fontWeight: "bold",
-		textAlign:"center",
+		textAlign: "center",
 		marginVertical: 10,
 		fontSize: 20
 	},
