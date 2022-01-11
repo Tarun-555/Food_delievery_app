@@ -141,7 +141,11 @@ const DrawerNavigation = ({ navigation }) => {
 				options={{ headerShown: false }}
 			/>
 			<Drawer.Screen name="Profile" component={StackNavigators.ProfileStack} options={{ headerLeft: () => <MenuIcon navigation={navigation} /> }} />
-			<Drawer.Screen name="Cart" component={StackNavigators.CartStack} options={{ headerLeft: () => <MenuIcon navigation={navigation} /> }} />
+			<Drawer.Screen
+				name="Cart"
+				component={StackNavigators.CartStack}
+				options={{ headerShown: false, headerLeft: () => <MenuIcon navigation={navigation} /> }}
+			/>
 		</Drawer.Navigator>
 	);
 };
