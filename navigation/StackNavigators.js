@@ -62,8 +62,17 @@ const ProfileStack = ({ navigation }) => {
 
 const CartStack = ({ navigation }) => {
 	return (
-		<Stack.Navigator screenOptions={{ headerShown: false }}>
-			<Stack.Screen name="Cart" component={Cart} />
+		<Stack.Navigator
+			screenOptions={{
+				headerShown: false,
+				headerStyle: { backgroundColor: Colors.Primary },
+				headerTintColor: Colors.TextWhite,
+				headerTitleAlign: "center",
+				headerTitleStyle: { fontWeight: "bold", fontFamily: "Arial" },
+				headerTitleAllowFontScaling: true
+			}}
+		>
+			<Stack.Screen name="Cart" component={Cart} options={{ headerShown: false }} />
 		</Stack.Navigator>
 	);
 };

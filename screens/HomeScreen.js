@@ -10,6 +10,15 @@ import firestore from "@react-native-firebase/firestore";
 const HomeScreen = ({ navigation }) => {
 	const [Restaurants, setRestaurants] = useState([]);
 	const [Categories, setCategories] = useState([]);
+	const [searchRestaurant, setSearchRestaurant] = useState("");
+	const [filterRestaurants, setFilterRestaurants] = useState([]);
+
+	const handleSearchRestaurants = (text) => {
+		setSearchRestaurant(text);
+		let filtered = Restaurants.filter((item) => item._data.name.includes(text));
+		// console.log(text, filtered);
+		setFilterRestaurants(filtered);
+	};
 
 	useEffect(() => {
 		//get restaurants data from firestore
@@ -17,7 +26,7 @@ const HomeScreen = ({ navigation }) => {
 			.collection("Restaurants")
 			.get()
 			.then((querySnapshot) => {
-				// console.log("Total users: ", querySnapshot.size, querySnapshot.docs);
+				console.log("Total restaurants: ", querySnapshot.size, querySnapshot.docs);
 				setRestaurants(querySnapshot.docs);
 				querySnapshot.forEach((documentSnapshot) => {
 					//   console.log('User ID: ', documentSnapshot.id, documentSnapshot.data());
@@ -42,7 +51,12 @@ const HomeScreen = ({ navigation }) => {
 			{/* <Button onPress={()=>{}} title="map"/> */}
 			{/* search food by name*/}
 			<View>
-				<TextInput style={Styles.searchBar} placeholder="Search for your favourites..." />
+				<TextInput
+					style={Styles.searchBar}
+					placeholder="Search for restaurants..."
+					onChangeText={(text) => handleSearchRestaurants(text)}
+					value={searchRestaurant}
+				/>
 				<View style={{ position: "absolute", top: 22, left: 20 }}>
 					<Icon name="search" color="grey" size={18} />
 				</View>
@@ -60,7 +74,7 @@ const HomeScreen = ({ navigation }) => {
 			</View>
 			{/* restaurant list */}
 			<ScrollView>
-				{Restaurants &&
+				{searchRestaurant == "" && Restaurants ? (
 					Restaurants.map((restaurant) => {
 						return (
 							<RestaurantCard
@@ -71,7 +85,24 @@ const HomeScreen = ({ navigation }) => {
 								navigation={navigation}
 							/>
 						);
-					})}
+					})
+				) : filterRestaurants.length > 0 ? (
+					filterRestaurants.map((restaurant) => {
+						return (
+							<RestaurantCard
+								ImageUrl={restaurant._data.restaurant_image}
+								Name={restaurant._data.name}
+								Rating={restaurant._data.rating}
+								Menu={restaurant._data.menu}
+								navigation={navigation}
+							/>
+						);
+					})
+				) : (
+					<View style={{ justifyContent: "center", alignItems: "center", margin: 10 }}>
+						<Text style={{ fontWeight: "bold", color: "grey" }}>No Restaurants found</Text>
+					</View>
+				)}
 			</ScrollView>
 			{/* <Button title="Click to Navigate" onPress={() => navigation.push("favourites")} /> */}
 		</View>

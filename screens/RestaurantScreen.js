@@ -22,7 +22,7 @@ import { restaurantMenuImgs } from "../data/data";
 import { addItem, decrementItem, incrementItem, removeItem, resetCart } from "../store/action";
 import { ADD_ITEM } from "../store/constants";
 
-const HEADER_MAX_HEIGHT = 220;
+const HEADER_MAX_HEIGHT = 300;
 const HEADER_MIN_HEIGHT = 0;
 const HEADER_SCROLL_DISTANCE = HEADER_MAX_HEIGHT - HEADER_MIN_HEIGHT;
 
@@ -31,14 +31,15 @@ const RestaurantScreen = ({ route, navigation, ...props }) => {
 	const [trigger, setTrigger] = useState(false);
 	const [displayText, setDisplayText] = useState(true);
 	const yOffSet = useRef(new Animated.Value(0)).current;
+	const [extraHeight, setExtraHeight] = useState(0);
 
 	// console.log("inside res", route.params);
 	console.log("props", props);
 	// const headerOpacity = useRef(new Animated.Value(0)).current;
 
 	const headerHeight = yOffSet.interpolate({
-		inputRange: [0, HEADER_SCROLL_DISTANCE],
-		outputRange: [HEADER_MAX_HEIGHT, HEADER_MIN_HEIGHT],
+		inputRange: [0, HEADER_SCROLL_DISTANCE + extraHeight],
+		outputRange: [HEADER_MAX_HEIGHT + extraHeight, HEADER_MIN_HEIGHT],
 		extrapolate: "clamp"
 	});
 
@@ -52,6 +53,14 @@ const RestaurantScreen = ({ route, navigation, ...props }) => {
 		inputRange: [0, HEADER_SCROLL_DISTANCE, HEADER_SCROLL_DISTANCE + 20],
 		outputRange: [0, 0.7, 1]
 	});
+
+	useEffect(() => {
+		if (displayText) {
+			setExtraHeight(0);
+		} else {
+			setExtraHeight(20);
+		}
+	}, [displayText]);
 
 	useEffect(async () => {
 		let resName = route.params.name.toLowerCase().split(" ").join("");
@@ -95,27 +104,27 @@ const RestaurantScreen = ({ route, navigation, ...props }) => {
 
 	const renderHeader = () => {
 		return (
-			<View style={{ width: "100%", paddingVertical: 5, paddingHorizontal: 10, backgroundColor: Colors.Secondary }}>
+			<View style={{ width: "100%", paddingVertical: 5, paddingHorizontal: 0 }}>
 				<View style={{ flexDirection: "row", alignItems: "center", paddingVertical: 2 }}>
 					{/* <Text>Address</Text> */}
 					<View style={{ flexDirection: "row", alignItems: "center", marginLeft: 5 }}>
 						<Icon name={"star"} color="gold" size={15} />
-						<Text style={{ marginLeft: 4 }}>4.5</Text>
+						<Text style={{ marginLeft: 4, color: "#fff" }}>4.5</Text>
 					</View>
 					<View style={{ flexDirection: "row", alignItems: "center", marginLeft: 8 }}>
-						<Icon2 name="stopwatch" color="#023047" size={15} />
-						<Text style={{ marginLeft: 4 }}>20-30 min</Text>
+						<Icon2 name="stopwatch" color="#219ebc" size={15} />
+						<Text style={{ marginLeft: 4, color: "#fff" }}>20-30 min</Text>
 					</View>
 				</View>
-				<View style={{ padding: 4, width: "90%" }}>
+				<View style={{ padding: 4, width: "100%" }}>
 					{displayText ? (
 						<Text numberOfLines={2} style={{ color: "#fff", fontStyle: "italic" }}>
-							Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+							Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor.
 						</Text>
 					) : (
 						<Text style={{ color: "#fff", fontStyle: "italic" }}>
-							Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad
-							minim veniam, quis nostrud exercitation ullamco.
+							Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt minim veniam, quis nostrud exercitation
+							ullamco.
 						</Text>
 					)}
 					<TouchableOpacity
@@ -138,6 +147,7 @@ const RestaurantScreen = ({ route, navigation, ...props }) => {
 		// console.log("itemu", route.params.name, restaurantMenuImgs);
 		let selectedResImgs = restaurantMenuImgs.filter((res) => res.restaurant == selectedRes);
 		// console.log(selectedResImgs, selectedRes);
+		console.log("reducer", props?.cart);
 		return (
 			<View style={styles.menuItemContainer}>
 				<View style={styles.menuItemImg}>
@@ -180,7 +190,7 @@ const RestaurantScreen = ({ route, navigation, ...props }) => {
 						<Text style={{ fontSize: 18 }}>
 							{"\u20B9"} {price}
 						</Text>
-						{!props.cart.includes(item) ? (
+						{props.cart?.filter((i) => i.item == item).length == 0 ? (
 							<TouchableOpacity onPress={() => props.add(menuItem)}>
 								<View style={styles.addBtn}>
 									<Text style={{ color: Colors.Primary, fontSize: 12 }}>ADD</Text>
@@ -192,7 +202,7 @@ const RestaurantScreen = ({ route, navigation, ...props }) => {
 									<Icon name="minus-square" size={20} color={Colors.Primary} />
 								</TouchableOpacity>
 
-								<Text style={{ color: Colors.Primary, fontSize: 12 }}>{props.cart.filter((i) => i == item).length}</Text>
+								<Text style={{ color: Colors.Primary, fontSize: 12 }}>{props.cart.filter((i) => i.item == item)[0].count}</Text>
 
 								<TouchableOpacity onPress={() => props.increment(menuItem)}>
 									<Icon name="plus-square" size={20} color={Colors.Primary} />
@@ -273,15 +283,26 @@ const RestaurantScreen = ({ route, navigation, ...props }) => {
 							>
 								{route.params.name}
 							</Animated.Text>
+							<Animated.View
+								style={{
+									opacity: yOffSet.interpolate({
+										inputRange: [0, HEADER_SCROLL_DISTANCE / 2, HEADER_SCROLL_DISTANCE],
+										outputRange: [1, 0, 0],
+										extrapolate: "clamp"
+									})
+								}}
+							>
+								{renderHeader()}
+							</Animated.View>
 						</View>
 					</ImageBackground>
 				</Animated.View>
 				<FlatList
 					scrollEventThrottle={16}
 					showsVerticalScrollIndicator={false}
-					ListHeaderComponent={() => renderHeader()}
+					// ListHeaderComponent={() => renderHeader()}
 					onScroll={Animated.event([{ nativeEvent: { contentOffset: { y: yOffSet } } }], { useNativeDriver: false })}
-					contentContainerStyle={{ marginTop: HEADER_MAX_HEIGHT - 50, paddingBottom: 150, flexGrow: 0, minHeight: 1000 }}
+					contentContainerStyle={{ marginTop: HEADER_MAX_HEIGHT - 50, paddingBottom: 150, flexGrow: 0, minHeight: 1100 }}
 					data={route.params.items}
 					renderItem={({ item, index }) => renderMenuItems(item, index)}
 					keyExtractor={(item) => item.item}
@@ -291,9 +312,9 @@ const RestaurantScreen = ({ route, navigation, ...props }) => {
 				<TouchableOpacity
 					style={{ position: "absolute", bottom: 10, width: "50%", alignSelf: "center", elevation: 2 }}
 					onPress={() => {
-						setTimeout(() => {
-							navigation.pop();
-						}, 1000);
+						// setTimeout(() => {
+						// 	navigation.pop();
+						// }, 1000);
 						navigation.navigate("Cart");
 					}}
 				>

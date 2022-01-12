@@ -18,18 +18,32 @@ export const cartReducer = (state = initialState, action) => {
 				cartItems: [...state.cartItems, action.payload]
 			};
 		case INCREMENT_ITEM:
+			const incrementedItem = state.cartItems.filter((i) => i.item == action.payload.item);
+			const others = state.cartItems.filter((i) => i.item != action.payload.item);
+			incrementedItem[0].count = incrementedItem[0].count + 1;
+			const modifiedCartItems = [...others, ...incrementedItem];
+
 			return {
 				price: state.price + action.payload.price,
-				cartItems: [...state.cartItems, action.payload.item]
+				cartItems: [...modifiedCartItems]
 			};
 		case DECREMENT_ITEM:
-			let index = state.cartItems.indexOf(action.payload.item);
-			if (index > -1) {
-				state.cartItems.splice(index, 1);
+			const decrementedItem = state.cartItems.filter((i) => i.item == action.payload.item);
+			const otherItems = state.cartItems.filter((i) => i.item != action.payload.item);
+			let index = state.cartItems.findIndex((i) => i.item == action.payload.item);
+			let modifiedItems = [];
+			if (decrementedItem[0].count > 1) {
+				decrementedItem[0].count = decrementedItem[0].count - 1;
+				modifiedItems = [...otherItems, ...decrementedItem];
+			} else {
+				if (index > -1) {
+					state.cartItems.splice(index, 1);
+					modifiedItems = [...state.cartItems];
+				}
 			}
 			return {
 				price: state.price - action.payload.price,
-				cartItems: [...state.cartItems]
+				cartItems: [...modifiedItems]
 			};
 		case RESET:
 			return {

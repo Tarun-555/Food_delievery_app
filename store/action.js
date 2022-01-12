@@ -3,7 +3,7 @@ import { ADD_ITEM, DECREMENT_ITEM, INCREMENT_ITEM, REMOVE_ITEM, RESET } from "./
 export const addItem = (item) => {
 	return {
 		type: ADD_ITEM,
-		payload: { price: item.price, item: item.item }
+		payload: { price: item.price, item: { ...item, count: 1 } }
 	};
 };
 
