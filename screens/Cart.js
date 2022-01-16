@@ -8,7 +8,7 @@ import { GooglePlacesAutocomplete } from "react-native-google-places-autocomplet
 import Icon from "react-native-vector-icons/FontAwesome";
 import { addItem, decrementItem, incrementItem, removeItem, resetCart } from "../store/action";
 
-GeoCoder.init("AIzaSyCqYOelS-TFd4bJOzkphBQ2-8Fl9G7U4j8");
+// GeoCoder.init("");
 
 const Cart = ({ route, navigation, ...props }) => {
 	const [region, setRegion] = useState({ latitude: 37.78825, longitude: -122.4324, latitudeDelta: 0.0922, longitudeDelta: 0.0421 });
@@ -44,7 +44,7 @@ const Cart = ({ route, navigation, ...props }) => {
 										console.log(data, details);
 									}}
 									query={{
-										key: "AIzaSyCqYOelS-TFd4bJOzkphBQ2-8Fl9G7U4j8",
+// 										key: "",
 										language: "en",
 										types: "(cities)"
 									}}
