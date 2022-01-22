@@ -147,7 +147,7 @@ const RestaurantScreen = ({ route, navigation, ...props }) => {
 		// console.log("itemu", route.params.name, restaurantMenuImgs);
 		let selectedResImgs = restaurantMenuImgs.filter((res) => res.restaurant == selectedRes);
 		// console.log(selectedResImgs, selectedRes);
-		console.log("reducer", props?.cart);
+		// console.log("reducer", props?.cart);
 		return (
 			<View style={styles.menuItemContainer}>
 				<View style={styles.menuItemImg}>
