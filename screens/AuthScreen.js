@@ -91,7 +91,7 @@ const AuthScreen = () => {
 					<TextInput
 						placeholder="Enter your email"
 						placeholderTextColor="#cccc"
-						style={{ borderWidth: 1, borderColor: "#cccc", borderRadius: 10, paddingHorizontal: 10 }}
+						style={{ borderWidth: 1, borderColor: "#cccc", borderRadius: 10, paddingHorizontal: 10, height:50 }}
 						onChangeText={(text) => setEmail(text)}
 						value={email}
 					/>
@@ -111,7 +111,7 @@ const AuthScreen = () => {
 						placeholder="Enter your password"
 						placeholderTextColor="#cccc"
 						value={password}
-						style={{ borderWidth: 1, borderColor: "#cccc", borderRadius: 10, paddingHorizontal: 10 }}
+						style={{ borderWidth: 1, borderColor: "#cccc", borderRadius: 10, paddingHorizontal: 10, height:50 }}
 						onChangeText={(text) => setpassword(text)}
 						secureTextEntry={visibility ? true : false}
 					/>
@@ -138,7 +138,7 @@ const AuthScreen = () => {
 							placeholder="Confirm your password"
 							placeholderTextColor="#cccc"
 							value={confirmPassword}
-							style={{ borderWidth: 1, borderColor: "#cccc", borderRadius: 10, paddingHorizontal: 10 }}
+							style={{ borderWidth: 1, borderColor: "#cccc", borderRadius: 10, paddingHorizontal: 10, height:50 }}
 							onChangeText={(text) => setConfirmPassword(text)}
 							secureTextEntry={visibility ? true : false}
 						/>
